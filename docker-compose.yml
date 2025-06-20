@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  emoji-bot:
+    build: .
+    environment:
+      - DISCORD_TOKEN=your_token_here
+      #for channel you want to post updates to
+      - GUILD_ID=your_guild_id_here
+      - CHANNEL_ID=your_channel_id_here
+    volumes:
+      - ./emojis:/app/emojis
