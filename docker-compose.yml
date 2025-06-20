@@ -1,8 +1,9 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  emoji-bot:
-    build: .
+  emoji-archiver:
+    container_name: emoji-archiver
+    image: ghcr.io/jonathan-yeagy/emoji-archiver:latest
+    restart: always
     environment:
       - DISCORD_TOKEN=your_token_here
       #for channel you want to post updates to
