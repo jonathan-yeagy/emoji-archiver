@@ -149,6 +149,9 @@ token.json
 #emoji image files
 emojis/
 
+#Github Files
+.github/
+
 # Docker
 .dockerignore
 Dockerfile
