@@ -5,9 +5,9 @@ services:
     image: ghcr.io/jonathan-yeagy/emoji-archiver:latest
     restart: always
     environment:
-      - DISCORD_TOKEN=your_token_here
-      #for channel you want to post updates to
-      - GUILD_ID=your_guild_id_here
-      - CHANNEL_ID=your_channel_id_here
+      - NODE_ENV=production
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - GUILD_ID=${GUILD_ID}
+      - CHANNEL_ID=${CHANNEL_ID}
     volumes:
       - ./emojis:/app/emojis
