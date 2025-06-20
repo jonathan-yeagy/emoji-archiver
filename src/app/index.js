@@ -1,3 +1,8 @@
+// Only load .env in development (not in Docker)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const { Client, GatewayIntentBits, EmbedBuilder, ActivityType } = require('discord.js');
 const axios = require('axios');
 const fs = require('fs');
