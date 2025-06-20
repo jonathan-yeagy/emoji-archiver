@@ -3,16 +3,9 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
-//const guildId = process.env.GUILD_ID;
-//const channelId = process.env.CHANNEL_ID;
-
-
 // Send embed to the specified channel
-const guildId = '780933275383365642'; // Replace with your server's ID
-const channelId = '811033601650851881'; // Replace with your channel's ID
-
-
-
+const guildId = process.env.GUILD_ID;
+const channelId = process.env.CHANNEL_ID;
 
 const bot = new Client({
   intents: [
@@ -22,14 +15,14 @@ const bot = new Client({
 });
 
 //login to bot
-//bot.login(process.env.DISCORD_TOKEN);
-bot.login('MTM4MjM1MTEwMTcwOTUxNjkyMw.GiYygX.m7llYzZ8r1p52TqFAq_CT7Crdt5YkBHrMPJW0U');
+bot.login(process.env.DISCORD_TOKEN);
 
-
+//function to sanitize the server and emoji names
 function sanitize(str) {
   return str.replace(/[<>:"/\\|?*\x00-\x1F]/g, '_');
 }
 
+//function to send embeds
 async function sendEmbed(emoji, guild, channel) {
     //send embed to the specified channel
     if (guild) {
@@ -158,6 +151,7 @@ bot.on('raw', (packet) => {
 bot.on('guildEmojiCreate', async (emoji) => {
   console.log(`New emoji added ${emoji.name} from ${emoji.guild.name}`);
 
+  //archive emoji
   await archiveEmoji(emoji, emoji.guild);
 
 
@@ -165,6 +159,7 @@ bot.on('guildEmojiCreate', async (emoji) => {
   const guild = await bot.guilds.fetch(guildId).catch(() => null);
   const channel = guild.channels.cache.get(channelId) || await guild.channels.fetch(channelId).catch(() => null);
 
+  //send embed
   await sendEmbed(emoji, guild, channel);
 
 
