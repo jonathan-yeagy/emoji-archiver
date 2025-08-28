@@ -1,3 +1,4 @@
+//it is used to catch all emoji events and emit them to the bot (needed for caching reasons)
 function registerRawEvent(bot) {
   bot.on('raw', (packet) => {
     if (packet.t === 'GUILD_EMOJIS_UPDATE') {

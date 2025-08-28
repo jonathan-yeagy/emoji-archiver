@@ -4,7 +4,7 @@ const { sanitize } = require('../utils/sanitize');
 const { archiveEmoji } = require('../utils/archiveEmoji');
 const { sendRenameEmbed } = require('../utils/sendEmbed');
 
-function registerGuildEmojiUpdate(bot) {
+function onEmojiUpdate(bot) {
   bot.on('guildEmojiUpdate', async (oldEmoji, newEmoji) => {
     if (oldEmoji.name === newEmoji.name) return;
 
@@ -19,12 +19,12 @@ function registerGuildEmojiUpdate(bot) {
     if (fs.existsSync(oldPath)) {
       try {
         fs.renameSync(oldPath, newPath);
-        console.log(`✏️ Emoji renamed: ${oldName} → ${newName}`);
+        console.log(`Emoji renamed: ${oldName} → ${newName}`);
       } catch (err) {
-        console.error(`❌ Failed to rename emoji file:`, err.message);
+        console.error(`Failed to rename emoji file:`, err.message);
       }
     } else {
-      console.warn(`⚠️ Could not find old file for ${oldName}, re-downloading...`);
+      console.warn(`Could not find old file for ${oldName}, re-downloading...`);
       await archiveEmoji(newEmoji, newEmoji.guild);
     }
 
@@ -35,6 +35,6 @@ function registerGuildEmojiUpdate(bot) {
   });
 }
 
-module.exports = { registerGuildEmojiUpdate };
+module.exports = { onEmojiUpdate };
 
 

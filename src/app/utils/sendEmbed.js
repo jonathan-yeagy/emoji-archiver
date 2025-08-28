@@ -4,10 +4,17 @@ const { EmbedBuilder } = require('discord.js');
 const guildId = process.env.GUILD_ID;
 const channelId = process.env.CHANNEL_ID;
 
-async function sendCreateEmbed(emoji, bot) {
+// Get guild and channel helper function
+async function getGuildAndChannel(bot) {
   const guild = await bot.guilds.fetch(guildId).catch(() => null);
   const channel = guild?.channels.cache.get(channelId) 
     || await guild?.channels.fetch(channelId).catch(() => null);
+  
+  return { guild, channel };
+}
+
+async function sendCreateEmbed(emoji, bot) {
+  const { guild, channel } = await getGuildAndChannel(bot);
 
   if (guild && channel && channel.isTextBased()) {
     const embed = new EmbedBuilder()
@@ -21,20 +28,19 @@ async function sendCreateEmbed(emoji, bot) {
       .setColor(0xFFD700)
       .setTimestamp();
     const sentMessage = await channel.send({ embeds: [embed] });
+    console.log(`Emoji create embed sent: ${emoji.name}`);
     try {
       await sentMessage.react(emoji);
     } catch (error) {
-      console.error(`❌ Failed to react with emoji ${emoji.name}:`, error);
+      console.error(`Failed to react with emoji ${emoji.name}:`, error);
     }
   } else {
-    console.error('❌ Could not find or send to the target channel in the specified guild.');
+    console.error('Could not find or send to the target channel in the specified guild.');
   }
 }
 
 async function sendRenameEmbed(oldName, newEmoji, bot) {
-  const guild = await bot.guilds.fetch(guildId).catch(() => null);
-  const channel = guild?.channels.cache.get(channelId) 
-    || await guild?.channels.fetch(channelId).catch(() => null);
+  const { guild, channel } = await getGuildAndChannel(bot);
 
   if (guild && channel && channel.isTextBased()) {
     const embed = new EmbedBuilder()
@@ -49,14 +55,14 @@ async function sendRenameEmbed(oldName, newEmoji, bot) {
       .setTimestamp();
 
     await channel.send({ embeds: [embed] });
-    console.log(`✏️ Emoji rename embed sent: ${oldName} → ${newEmoji.name}`);
+    console.log(`Emoji rename embed sent: ${oldName} → ${newEmoji.name}`);
+  } else {
+    console.error('Could not find or send to the target channel in the specified guild.');
   }
 }
 
 async function sendDeleteEmbed(emoji, bot) {
-  const guild = await bot.guilds.fetch(guildId).catch(() => null);
-  const channel = guild?.channels.cache.get(channelId) 
-    || await guild?.channels.fetch(channelId).catch(() => null);
+  const { guild, channel } = await getGuildAndChannel(bot);
 
   if (guild && channel && channel.isTextBased()) {
     const embed = new EmbedBuilder()
@@ -71,7 +77,9 @@ async function sendDeleteEmbed(emoji, bot) {
       .setTimestamp();
 
     await channel.send({ embeds: [embed] });
-    console.log(`🗑️ Emoji removed embed sent: ${emoji.name}`);
+    console.log(`Emoji removed embed sent: ${emoji.name}`);
+  } else {
+    console.error('Could not find or send to the target channel in the specified guild.');
   }
 }
 

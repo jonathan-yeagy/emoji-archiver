@@ -1,7 +1,7 @@
 const { sendCreateEmbed } = require('../utils/sendEmbed');
 const { archiveEmoji } = require('../utils/archiveEmoji');
 
-function registerGuildEmojiCreate(bot) {
+function onEmojiCreate(bot) {
   bot.on('guildEmojiCreate', async (emoji) => {
     console.log(`New emoji added ${emoji.name} from ${emoji.guild.name}`);
 
@@ -10,6 +10,6 @@ function registerGuildEmojiCreate(bot) {
   });
 }
 
-module.exports = { registerGuildEmojiCreate };
+module.exports = { onEmojiCreate };
 
 

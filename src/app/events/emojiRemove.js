@@ -1,6 +1,6 @@
 const { sendDeleteEmbed } = require('../utils/sendEmbed');
 
-function registerGuildEmojiDelete(bot) {
+function onEmojiDelete(bot) {
   bot.on('guildEmojiDelete', async (emoji) => {
     console.log(`Emoji removed: ${emoji.name} from ${emoji.guild.name}`);
 
@@ -11,6 +11,6 @@ function registerGuildEmojiDelete(bot) {
   });
 }
 
-module.exports = { registerGuildEmojiDelete };
+module.exports = { onEmojiDelete };
 
 
