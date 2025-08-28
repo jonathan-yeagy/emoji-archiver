@@ -1,10 +1,10 @@
-const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const { sanitize } = require('../utils/sanitize');
 const { archiveEmoji } = require('../utils/archiveEmoji');
+const { sendRenameEmbed } = require('../utils/sendEmbed');
 
-function registerGuildEmojiUpdate(bot, { guildId, channelId }) {
+function registerGuildEmojiUpdate(bot) {
   bot.on('guildEmojiUpdate', async (oldEmoji, newEmoji) => {
     if (oldEmoji.name === newEmoji.name) return;
 
@@ -28,25 +28,10 @@ function registerGuildEmojiUpdate(bot, { guildId, channelId }) {
       await archiveEmoji(newEmoji, newEmoji.guild);
     }
 
-    const guild = await bot.guilds.fetch(guildId).catch(() => null);
-    const channel = guild?.channels.cache.get(channelId) 
-      || await guild?.channels.fetch(channelId).catch(() => null);
+    await sendRenameEmbed(oldName, newEmoji, bot);
 
-    if (guild && channel && channel.isTextBased()) {
-      const embed = new EmbedBuilder()
-        .setTitle('Emoji Renamed')
-        .setDescription(`An emoji has been renamed in **${newEmoji.guild.name}**`)
-        .addFields(
-          { name: 'Old Name', value: oldName, inline: true },
-          { name: 'New Name', value: newName, inline: true }
-        )
-        .setThumbnail(newEmoji.url)
-        .setColor(0x00BFFF)
-        .setTimestamp();
 
-      await channel.send({ embeds: [embed] });
-      console.log(`✏️ Emoji rename embed sent: ${oldName} → ${newName}`);
-    }
+    
   });
 }
 

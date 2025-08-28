@@ -1,17 +1,12 @@
-const { sendEmbed } = require('../utils/sendEmbed');
+const { sendCreateEmbed } = require('../utils/sendEmbed');
 const { archiveEmoji } = require('../utils/archiveEmoji');
 
-function registerGuildEmojiCreate(bot, { guildId, channelId }) {
+function registerGuildEmojiCreate(bot) {
   bot.on('guildEmojiCreate', async (emoji) => {
     console.log(`New emoji added ${emoji.name} from ${emoji.guild.name}`);
 
     await archiveEmoji(emoji, emoji.guild);
-
-    const guild = await bot.guilds.fetch(guildId).catch(() => null);
-    const channel = guild?.channels.cache.get(channelId) 
-      || await guild?.channels.fetch(channelId).catch(() => null);
-
-    await sendEmbed(emoji, guild, channel);
+    await sendCreateEmbed(emoji, bot);
   });
 }
 

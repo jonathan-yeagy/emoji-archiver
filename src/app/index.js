@@ -3,14 +3,11 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-const { Client, GatewayIntentBits, EmbedBuilder, ActivityType } = require('discord.js');
-const path = require('path');
+const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const { registerRawEvent } = require('./events/raw');
 const { registerGuildEmojiCreate } = require('./events/guildEmojiCreate');
 const { registerGuildEmojiUpdate } = require('./events/guildEmojiUpdate');
 const { registerGuildEmojiDelete } = require('./events/guildEmojiDelete');
-const { sanitize } = require('./utils/sanitize');
-const { sendEmbed } = require('./utils/sendEmbed');
 const { archiveEmoji } = require('./utils/archiveEmoji');
 
 // Send embed to the specified channel
@@ -53,6 +50,6 @@ bot.on('ready', async () => {
 
 // Register event modules
 registerRawEvent(bot);
-registerGuildEmojiCreate(bot, { guildId, channelId });
-registerGuildEmojiUpdate(bot, { guildId, channelId });
-registerGuildEmojiDelete(bot, { guildId, channelId });
+registerGuildEmojiCreate(bot);
+registerGuildEmojiUpdate(bot);
+registerGuildEmojiDelete(bot);
