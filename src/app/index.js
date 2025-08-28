@@ -131,25 +131,44 @@ bot.on('raw', (packet) => {
     const guild = bot.guilds.cache.get(packet.d.guild_id);
     if (!guild) return;
 
-    const oldEmojis = new Map(guild.emojis.cache);
+    const oldEmojis = new Map(guild.emojis.cache.map(e => [e.id, e]));
     const newEmojis = new Map(packet.d.emojis.map(e => [e.id, e]));
 
-    // Find newly created emojis
+    // Handle new emojis
     for (const [id, emojiData] of newEmojis) {
       if (!oldEmojis.has(id)) {
-        // Create a proper emoji object
         const emoji = {
           id: emojiData.id,
           name: emojiData.name,
           animated: emojiData.animated,
           url: `https://cdn.discordapp.com/emojis/${emojiData.id}.${emojiData.animated ? 'gif' : 'png'}`,
-          guild: guild
+          guild
         };
         bot.emit('guildEmojiCreate', emoji);
+      } else {
+        // Compare names for rename
+        const oldEmoji = oldEmojis.get(id);
+        if (oldEmoji.name !== emojiData.name) {
+          const newEmoji = {
+            ...oldEmoji,
+            name: emojiData.name,
+            url: `https://cdn.discordapp.com/emojis/${emojiData.id}.${emojiData.animated ? 'gif' : 'png'}`
+          };
+          bot.emit('guildEmojiUpdate', oldEmoji, newEmoji);
+        }
+      }
+    }
+
+    // Handle removed emojis
+    for (const [id, oldEmoji] of oldEmojis) {
+      if (!newEmojis.has(id)) {
+        // Removed emoji
+        bot.emit('guildEmojiDelete', oldEmoji);
       }
     }
   }
 });
+
 
 
 //when a new emoji is added
@@ -171,5 +190,80 @@ bot.on('guildEmojiCreate', async (emoji) => {
 });
 
 
+//when an emoji is renamed
+bot.on('guildEmojiUpdate', async (oldEmoji, newEmoji) => {
+  if (oldEmoji.name === newEmoji.name) return;
+
+  const oldName = oldEmoji.name; // snapshot the old name
+  const newName = newEmoji.name;
+
+  const fileExtension = newEmoji.animated ? 'gif' : 'png';
+  const dirPath = path.join(__dirname, '../../emojis', `${sanitize(newEmoji.guild.name)} (${newEmoji.guild.id})`);
+  const oldPath = path.join(dirPath, `${sanitize(oldName)}-${newEmoji.id}.${fileExtension}`);
+  const newPath = path.join(dirPath, `${sanitize(newName)}-${newEmoji.id}.${fileExtension}`);
+
+  // Try to rename the file
+  if (fs.existsSync(oldPath)) {
+    try {
+      fs.renameSync(oldPath, newPath);
+      console.log(`✏️ Emoji renamed: ${oldName} → ${newName}`);
+    } catch (err) {
+      console.error(`❌ Failed to rename emoji file:`, err.message);
+    }
+  } else {
+    console.warn(`⚠️ Could not find old file for ${oldName}, re-downloading...`);
+    await archiveEmoji(newEmoji, newEmoji.guild);
+  }
+
+  // Send an embed to the target channel
+  const guild = await bot.guilds.fetch(guildId).catch(() => null);
+  const channel = guild?.channels.cache.get(channelId) 
+    || await guild?.channels.fetch(channelId).catch(() => null);
+
+  if (guild && channel && channel.isTextBased()) {
+    const embed = new EmbedBuilder()
+      .setTitle('Emoji Renamed')
+      .setDescription(`An emoji has been renamed in **${newEmoji.guild.name}**`)
+      .addFields(
+        { name: 'Old Name', value: oldName, inline: true },
+        { name: 'New Name', value: newName, inline: true }
+      )
+      .setThumbnail(newEmoji.url)
+      .setColor(0x00BFFF)
+      .setTimestamp();
+
+    await channel.send({ embeds: [embed] });
+    console.log(`✏️ Emoji rename embed sent: ${oldName} → ${newName}`);
+  }
+});
 
 
+
+
+
+//Emoji Removed
+// When an emoji is deleted (in discord)
+bot.on('guildEmojiDelete', async (emoji) => {
+  console.log(`Emoji removed: ${emoji.name} from ${emoji.guild.name}`);
+
+  // Fetch your target guild and channel
+  const guild = await bot.guilds.fetch(guildId).catch(() => null);
+  const channel = guild?.channels.cache.get(channelId) 
+    || await guild?.channels.fetch(channelId).catch(() => null);
+
+  if (guild && channel && channel.isTextBased()) {
+    const embed = new EmbedBuilder()
+      .setTitle('Emoji Removed')
+      .setDescription(`An emoji has been removed from **${emoji.guild.name}**.\n\n*It still exists in the archive.*`)
+      .addFields(
+        { name: 'Emoji Name', value: emoji.name, inline: true },
+        { name: 'Animated', value: emoji.animated ? 'Yes' : 'No', inline: true }
+      )
+      .setThumbnail(emoji.imageURL())
+      .setColor(0xFF4500)
+      .setTimestamp();
+
+    await channel.send({ embeds: [embed] });
+    console.log(`🗑️ Emoji removed embed sent: ${emoji.name}`);
+  }
+});
