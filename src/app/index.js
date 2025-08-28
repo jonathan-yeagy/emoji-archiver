@@ -8,11 +8,8 @@ const { registerRawEvent } = require('./events/raw');
 const { registerGuildEmojiCreate } = require('./events/guildEmojiCreate');
 const { registerGuildEmojiUpdate } = require('./events/guildEmojiUpdate');
 const { registerGuildEmojiDelete } = require('./events/guildEmojiDelete');
-const { archiveEmoji } = require('./utils/archiveEmoji');
+const { archiveAllEmojis } = require('./events/startup');
 
-// Send embed to the specified channel
-const guildId = process.env.GUILD_ID;
-const channelId = process.env.CHANNEL_ID;
 
 const bot = new Client({
   intents: [
@@ -31,21 +28,7 @@ bot.on('ready', async () => {
   bot.user.setStatus('online');
   bot.user.setActivity('your emojis', { type: ActivityType.Watching });
 
-  try {
-    const guilds = await bot.guilds.fetch();
-    console.log(`🔍 Found ${guilds.size} servers`);
-    for (const [_, guildPartial] of guilds) {
-      const guild = await guildPartial.fetch();
-      const emojis = await guild.emojis.fetch();
-      console.log(`📦 Archiving ${emojis.size} emojis from ${guild.name}`);
-      for (const emoji of emojis.values()) {
-        await archiveEmoji(emoji, guild);
-      }
-    }
-    console.log('✅ Finished archiving emojis from all servers');
-  } catch (error) {
-    console.error('❌ Failed to fetch guilds or emojis:', error.message);
-  }
+  await archiveAllEmojis(bot);
 });
 
 // Register event modules
