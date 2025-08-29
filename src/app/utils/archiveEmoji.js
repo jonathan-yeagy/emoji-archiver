@@ -7,6 +7,8 @@ async function archiveEmoji(emoji, guild) {
   const fileExtension = emoji.animated ? 'gif' : 'png';
 
   let emojiURL;
+
+  // Get emoji URL - handle both function and string cases
   if (typeof emoji.imageURL === 'function') {
     emojiURL = emoji.imageURL();
   } else {
