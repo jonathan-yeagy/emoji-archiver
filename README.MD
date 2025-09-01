@@ -33,8 +33,9 @@ emojis/
     └── ...
 ```
 
+#Pre-Installation
 
-The bot will start and begin archiving emojis from all servers it's in.
+Before installing, you'll need to register this bot in the [Discord Developer Portal](https://discord.com/developers/applications).
 
 ## Discord Developer Portal Setup
 
@@ -43,38 +44,38 @@ The bot will start and begin archiving emojis from all servers it's in.
 1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
 2. Click "New Application"
 3. Give your application a name (e.g., "Emoji Archiver")
-4. Go to the "Bot" section in the left sidebar
 
-### Step 2: Configure Bot Permissions
+### Step 2: Generate Bot Token
 
-In the Bot section, enable these permissions under "Privileged Gateway Intents":
-- ✅ **Server Members Intent** (if needed for your use case)
-- ✅ **Message Content Intent** (if needed for your use case)
+1. Go to the "Bot" section in the left sidebar
+2. Click "Reset Token" to generate a new bot token
+3. Copy the token (you'll need this for the `DISCORD_TOKEN` environment variable)
+4. **Keep this token secret!** Never share it publicly.
 
-### Step 3: Set Bot Permissions
-
-Under "Bot Permissions", enable these permissions:
-- ✅ **Add Reactions**
-- ✅ **Send Messages**
-- ✅ **Use External Emojis**
-
-### Step 4: Generate Bot Token
-
-1. Click "Reset Token" to generate a new bot token
-2. Copy the token (you'll need this for the `DISCORD_TOKEN` environment variable)
-3. **Keep this token secret!** Never share it publicly.
-
-### Step 5: Create OAuth2 URL
+### Step 3: Create OAuth2 URL
 
 1. Go to the "OAuth2" → "URL Generator" section
 2. Select "bot" under "Scopes"
-3. Select the permissions listed above under "Bot Permissions"
-4. Copy the generated URL and use it to invite the bot to your server
+3. Under "Bot Permissions", enable these permissions:
+ - **Add Reactions**
+ - **Send Messages**
+ - **Use External Emojis**
+4. Copy the generated URL and use it to invite the bot to your server (you can use this link for multiple servers)
 
 ### Step 6: Get Server and Channel IDs
+In order tosend notifications, you'll need the Guild and Channel IDs so the Bot knows where to send them to
 
-1. **Server ID (Guild ID)**: Right-click on your server name and select "Copy Server ID"
-2. **Channel ID**: Right-click on the channel where you want notifications and select "Copy Channel ID"
+1. Right Click on a message in the channel you intend for this bot to send updates to
+2. In the pop-up menu, click copy message link. The link should be formatted like seen below
+ - Example: `https://discord.com/channels/[GUILD_ID]/[CHANNEL_ID]/[MESSAGE_ID]`
+3. You'll want to pull the `GUILD_ID` and `CHANNEL_ID` from the URL. Keep them handy for the installation. 
+
+#Installation
+
+##Install With Docker Compose
+
+You can view the full Docker Compose configuration here:  
+[docker-compose.yml](./docker-compose.yml)
 
 ### Environment Variables
 
@@ -85,13 +86,9 @@ Under "Bot Permissions", enable these permissions:
 | `CHANNEL_ID` | ID of the channel for notifications | Yes |
 | `NODE_ENV` | Set to `production` for Docker | No |
 
-### Bot Intents
 
-The bot uses these Discord.js intents:
-- `Guilds` - To access server information
-- `GuildEmojisAndStickers` - To monitor emoji events
 
-## Usage
+# Usage
 
 Once the bot is running:
 
@@ -123,25 +120,3 @@ The bot will automatically:
 - Verify `GUILD_ID` and `CHANNEL_ID` are correct
 - Ensure the bot can see and send messages to the channel
 - Check that the channel is a text channel
-
-### Logs
-
-View Docker logs:
-```bash
-docker-compose logs -f emoji-archiver
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-
-ISC License - see package.json for details
-
-## Author
-
-Jonathan Yeagy
