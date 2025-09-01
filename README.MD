@@ -69,9 +69,9 @@ In order to send notifications, you'll need the Guild and Channel IDs so the Bot
 1. Right Click on a message in the channel you intend for this bot to send updates to
 2. In the pop-up menu, click copy message link. The link should be formatted like seen below
     - Example: `https://discord.com/channels/[GUILD_ID]/[CHANNEL_ID]/[MESSAGE_ID]`
-3. You'll want to pull the `GUILD_ID` and `CHANNEL_ID` from the URL. Keep them handy for the installation. 
+3. You'll want to pull the `GUILD_ID` and `CHANNEL_ID` from the URL. Keep them handy for the Docker Compose deployment.
 
-## Install With Docker Compose
+## Deploy With Docker Compose
 
 You can view the full Docker Compose configuration here: [docker-compose.yml](./docker-compose.yml)
 
