@@ -18,7 +18,7 @@ The bot monitors Discord servers for emoji events and:
 3. **On Emoji Update**: Sends a notification about the change
 4. **On Emoji Delete**: Sends a notification (emoji remains in archive)
 
-## Emoji Storage Location
+### Emoji Storage Location
 
 Emojis are downloaded to the `emojis/` directory in your project folder. Each server gets its own subdirectory named with the server name and ID:
 
@@ -63,6 +63,7 @@ Before installing, you'll need to register this bot in the [Discord Developer Po
 4. Copy the generated URL and use it to invite the bot to your server (you can use this link for multiple servers)
 
 ## Get Server and Channel IDs
+
 In order to send notifications, you'll need the Guild and Channel IDs so the Bot knows where to send them to
 
 1. Right Click on a message in the channel you intend for this bot to send updates to
@@ -72,8 +73,7 @@ In order to send notifications, you'll need the Guild and Channel IDs so the Bot
 
 ## Install With Docker Compose
 
-You can view the full Docker Compose configuration here:  
-[docker-compose.yml](./docker-compose.yml)
+You can view the full Docker Compose configuration here: [docker-compose.yml](./docker-compose.yml)
 
 ### Environment Variables
 
