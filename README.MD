@@ -33,7 +33,7 @@ emojis/
     └── ...
 ```
 
-#Pre-Installation
+# Pre-Installation
 
 Before installing, you'll need to register this bot in the [Discord Developer Portal](https://discord.com/developers/applications).
 
@@ -70,9 +70,9 @@ In order tosend notifications, you'll need the Guild and Channel IDs so the Bot 
  - Example: `https://discord.com/channels/[GUILD_ID]/[CHANNEL_ID]/[MESSAGE_ID]`
 3. You'll want to pull the `GUILD_ID` and `CHANNEL_ID` from the URL. Keep them handy for the installation. 
 
-#Installation
+# Installation
 
-##Install With Docker Compose
+## Install With Docker Compose
 
 You can view the full Docker Compose configuration here:  
 [docker-compose.yml](./docker-compose.yml)
@@ -85,8 +85,6 @@ You can view the full Docker Compose configuration here:
 | `GUILD_ID` | ID of the server for notifications | Yes |
 | `CHANNEL_ID` | ID of the channel for notifications | Yes |
 | `NODE_ENV` | Set to `production` for Docker | No |
-
-
 
 # Usage
 
