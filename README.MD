@@ -57,9 +57,9 @@ Before installing, you'll need to register this bot in the [Discord Developer Po
 1. Go to the "OAuth2" → "URL Generator" section
 2. Select "bot" under "Scopes"
 3. Under "Bot Permissions", enable these permissions:
-  - **Add Reactions**
-  - **Send Messages**
-  - **Use External Emojis**
+      - Add Reactions
+  - Send Messages
+  - Use External Emojis
 4. Copy the generated URL and use it to invite the bot to your server (you can use this link for multiple servers)
 
 ### Step 4: Get Server and Channel IDs
