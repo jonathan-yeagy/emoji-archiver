@@ -33,7 +33,7 @@ emojis/
     └── ...
 ```
 
-# Pre-Installation
+# Installation
 
 Before installing, you'll need to register this bot in the [Discord Developer Portal](https://discord.com/developers/applications).
 
@@ -62,15 +62,13 @@ Before installing, you'll need to register this bot in the [Discord Developer Po
     - Use External Emojis
 4. Copy the generated URL and use it to invite the bot to your server (you can use this link for multiple servers)
 
-### Step 4: Get Server and Channel IDs
+## Get Server and Channel IDs
 In order to send notifications, you'll need the Guild and Channel IDs so the Bot knows where to send them to
 
 1. Right Click on a message in the channel you intend for this bot to send updates to
 2. In the pop-up menu, click copy message link. The link should be formatted like seen below
     - Example: `https://discord.com/channels/[GUILD_ID]/[CHANNEL_ID]/[MESSAGE_ID]`
 3. You'll want to pull the `GUILD_ID` and `CHANNEL_ID` from the URL. Keep them handy for the installation. 
-
-# Installation
 
 ## Install With Docker Compose
 
@@ -85,4 +83,3 @@ You can view the full Docker Compose configuration here:
 | `GUILD_ID` | ID of the server for notifications |
 | `CHANNEL_ID` | ID of the channel for notifications |
 | `NODE_ENV` | Set to `production` for Docker |
-
