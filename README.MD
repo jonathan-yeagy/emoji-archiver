@@ -44,6 +44,8 @@ Before installing, you'll need to register this bot in the [Discord Developer Po
 1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
 2. Click "New Application"
 3. Give your application a name (e.g., "Emoji Archiver")
+4. Give your application an icon to add some extra flair
+
 
 ### Step 2: Generate Bot Token
 
