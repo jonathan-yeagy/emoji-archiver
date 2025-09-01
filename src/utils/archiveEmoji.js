@@ -15,7 +15,7 @@ async function archiveEmoji(emoji, guild) {
     emojiURL = emoji.url || `https://cdn.discordapp.com/emojis/${emoji.id}.${fileExtension}`;
   }
 
-  const dirPath = path.join(__dirname, '../../../emojis', `${sanitize(guild.name)} (${guild.id})`);
+  const dirPath = path.join(__dirname, '../../emojis', `${sanitize(guild.name)} (${guild.id})`);
   const filePath = path.join(dirPath, `${sanitize(emoji.name)}-${emoji.id}.${fileExtension}`);
 
   if (fs.existsSync(filePath)) {

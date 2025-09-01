@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src/app/index.js"
+    "start": "node src/index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["discord", "bot", "emoji", "archive"],
+  "author": "Jonathan Yeagy",
   "license": "ISC",
-  "description": "",
+  "description": "A Discord bot to archive emojis from each server it is added to and add them to local directories. The Bot will also send notifications when an emoji is added, updated, or deleted.",
   "dependencies": {
     "axios": "^1.10.0",
-    "discord.js": "^14.20.0"
+    "discord.js": "^14.20.0",
+    "dotenv": "^17.2.1"
   }
 }
