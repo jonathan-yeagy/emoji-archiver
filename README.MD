@@ -18,7 +18,7 @@ The bot monitors Discord servers for emoji events and:
 3. **On Emoji Update**: Sends a notification about the change
 4. **On Emoji Delete**: Sends a notification (emoji remains in archive)
 
-### Emoji Storage Location
+## Emoji Storage Location
 
 Emojis are downloaded to the `emojis/` directory in your project folder. Each server gets its own subdirectory named with the server name and ID:
 
