@@ -79,42 +79,10 @@ You can view the full Docker Compose configuration here:
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `DISCORD_TOKEN` | Your Discord bot token | Yes |
-| `GUILD_ID` | ID of the server for notifications | Yes |
-| `CHANNEL_ID` | ID of the channel for notifications | Yes |
-| `NODE_ENV` | Set to `production` for Docker | No |
+| Variable | Description |
+|----------|-------------|
+| `DISCORD_TOKEN` | Your Discord bot token |
+| `GUILD_ID` | ID of the server for notifications |
+| `CHANNEL_ID` | ID of the channel for notifications |
+| `NODE_ENV` | Set to `production` for Docker |
 
-# Usage
-
-Once the bot is running:
-
-1. **Invite the bot** to servers you want to archive emojis from
-2. **Monitor the notification channel** for emoji updates
-3. **Check the `emojis/` directory** to see archived emojis
-
-The bot will automatically:
-- Archive all existing emojis when it starts up
-- Download new emojis as they're added
-- Send notifications for emoji changes
-- Keep emojis even after they're deleted from Discord
-
-## Troubleshooting
-
-### Common Issues
-
-**Bot not responding to emoji events:**
-- Ensure the bot has the correct permissions
-- Check that the bot is online in your server
-- Verify the bot token is correct
-
-**Emojis not downloading:**
-- Check the `emojis/` directory permissions
-- Ensure the bot has internet access
-- Look for error messages in the console
-
-**Notifications not sending:**
-- Verify `GUILD_ID` and `CHANNEL_ID` are correct
-- Ensure the bot can see and send messages to the channel
-- Check that the channel is a text channel
