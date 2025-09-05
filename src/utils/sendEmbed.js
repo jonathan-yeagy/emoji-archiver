@@ -20,6 +20,7 @@ async function sendCreateEmbed(emoji, bot) {
     const embed = new EmbedBuilder()
       .setTitle('New Emoji Added!')
       .setDescription(`**${emoji.name}** has been added to **${emoji.guild.name}**!`)
+      .setURL(`https://discord.com/channels/${emoji.guild.id}`)
       .setImage(emoji.url)
       .addFields(
         { name: 'Emoji', value: emoji.name, inline: true },
@@ -46,6 +47,7 @@ async function sendRenameEmbed(oldName, newEmoji, bot) {
     const embed = new EmbedBuilder()
       .setTitle('Emoji Renamed')
       .setDescription(`An emoji has been renamed in **${newEmoji.guild.name}**`)
+      .setURL(`https://discord.com/channels/${emojnewEmoji.guild.id}`)
       .addFields(
         { name: 'Old Name', value: oldName, inline: true },
         { name: 'New Name', value: newEmoji.name, inline: true }
@@ -68,6 +70,7 @@ async function sendDeleteEmbed(emoji, bot) {
     const embed = new EmbedBuilder()
       .setTitle('Emoji Removed')
       .setDescription(`An emoji has been removed from **${emoji.guild.name}**.\n\n*It still exists in the archive.*`)
+      .setURL(`https://discord.com/channels/${emoji.guild.id}`)
       .addFields(
         { name: 'Emoji Name', value: emoji.name, inline: true },
         { name: 'Animated', value: emoji.animated ? 'Yes' : 'No', inline: true }
